@@ -6,6 +6,9 @@
     <title>home</title>
 </head>
 <body>
-    <h1>welcome to home page</h1>
+    {% if name == 'admin' %}
+    <h1>welcome to premium {{name|upper}}</h1>
+    {% endif %}
+    <h1>welcome to home page {{name|upper}}</h1>
 </body>
 </html>
