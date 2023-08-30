@@ -1,4 +1,6 @@
 from django.contrib import admin
-from .models import service
+from .models import *
 
-admin.site.register(service)
+admin.site.register(WebDevelopment)
+admin.site.register(Marketing)
+admin.site.register(Content)

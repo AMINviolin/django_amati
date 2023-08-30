@@ -140,12 +140,13 @@
               <img src="{% static 'assets/img/course-1.jpg' %}" class="img-fluid" alt="...">
               <div class="course-content">
                 <div class="d-flex justify-content-between align-items-center mb-3">
+                  {% for item in web %}
                   <h4>Web Development</h4>
-                  <p class="price">$169</p>
+                  <p class="price">{{item.price}}</p>
                 </div>
-
-                <h3><a href="course-details.html">Website Design</a></h3>
+                <h3><a href="course-details.html">{{item.course_name}}</a></h3>
                 <p>Et architecto provident deleniti facere repellat nobis iste. Id facere quia quae dolores dolorem tempore.</p>
+                  {% endfor %}
                 <div class="trainer d-flex justify-content-between align-items-center">
                   <div class="trainer-profile d-flex align-items-center">
                     <img src="{% static 'assets/img/trainers/trainer-1.jpg' %}" class="img-fluid" alt="">
@@ -166,11 +167,13 @@
               <img src="{% static 'assets/img/course-2.jpg' %}" class="img-fluid" alt="...">
               <div class="course-content">
                 <div class="d-flex justify-content-between align-items-center mb-3">
+                  {% for item in market %}
                   <h4>Marketing</h4>
-                  <p class="price">$250</p>
+                  <p class="price">{{item.price}}</p>
                 </div>
 
-                <h3><a href="course-details.html">Search Engine Optimization</a></h3>
+                <h3><a href="course-details.html">{{item.course_name}}</a></h3>
+                {% endfor %}
                 <p>Et architecto provident deleniti facere repellat nobis iste. Id facere quia quae dolores dolorem tempore.</p>
                 <div class="trainer d-flex justify-content-between align-items-center">
                   <div class="trainer-profile d-flex align-items-center">
@@ -192,11 +195,13 @@
               <img src="{% static 'assets/img/course-3.jpg' %}" class="img-fluid" alt="...">
               <div class="course-content">
                 <div class="d-flex justify-content-between align-items-center mb-3">
+                  {% for item in cont %}
                   <h4>Content</h4>
-                  <p class="price">$180</p>
+                  <p class="price">{{item.price}}</p>
                 </div>
 
-                <h3><a href="course-details.html">Copywriting</a></h3>
+                <h3><a href="course-details.html">{{item.course_name}}</a></h3>
+                {% endfor %}
                 <p>Et architecto provident deleniti facere repellat nobis iste. Id facere quia quae dolores dolorem tempore.</p>
                 <div class="trainer d-flex justify-content-between align-items-center">
                   <div class="trainer-profile d-flex align-items-center">
