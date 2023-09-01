@@ -10,4 +10,4 @@ class Courses(models.Model):
     price = models.IntegerField()
 
     def __str__(self):
-        self.title
+        return self.title
