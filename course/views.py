@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from .models import *
 
-def courses(request):
+def course(request):
     courses = Courses.objects.filter(status=True)
     context = {
         'courses': courses
