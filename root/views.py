@@ -18,5 +18,5 @@ def contact(request):
     return render(request,"root/contact.html")
 # _&_&_&_&_&_&_&_&_&_&_&_&_&_&_&_&
 
-def trainers(request):
+def trainer(request):
     return render(request,"root/trainers.html")
