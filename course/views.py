@@ -1,9 +1,9 @@
 from django.shortcuts import render
 from .models import *
 
-def course(request):
+def Maincourse(request):
     courses = Courses.objects.filter(status=True)
     context = {
-        'courses': courses
+        'maincourse': courses
     }
     return render(request,"course/courses.html",context=context)
