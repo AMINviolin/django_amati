@@ -1,8 +1,9 @@
 from django.contrib import admin
-from .models import Courses
+from .models import *
 
-@admin.register(Courses)
+admin.site.register(Courses)
+admin.site.register(Skills)
+admin.site.register(Category)
+admin.site.register(Trainer)
+ 
 
-class PostAdmin(admin.ModelAdmin):
-    search_fields = ['title']
-    list_display = ['title','status','price']

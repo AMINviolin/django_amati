@@ -6,4 +6,4 @@ def Maincourse(request):
     context = {
         'maincourse': courses
     }
-    return render(request,"course/courses.html",context=context)
+    return render(request,"courses/courses.html",context=context)

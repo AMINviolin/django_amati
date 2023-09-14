@@ -3,10 +3,8 @@ from .models import *
 
 
 def home(request):
-    web = WebDevelopment.objects.all()
-    market = Marketing.objects.all()
-    cont = Content.objects.all()
-    context = {'web': web, 'market': market, 'cont': cont}
+    services = Services.objects.filter(status=True)[:3]
+    context = {'service':services}
     return render(request,"root/index.html",context=context)
 # _&_&_&_&_&_&_&_&_&_&_&_&_&_&_&_&
 

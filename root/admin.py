@@ -1,6 +1,9 @@
 from django.contrib import admin
 from .models import *
 
-admin.site.register(WebDevelopment)
-admin.site.register(Marketing)
-admin.site.register(Content)
+class AdminServices(admin.ModelAdmin):
+    list_display = ['title','content','status']
+    list_filter = ['status']
+    search_fields = ['title']
+
+admin.site.register(Services,AdminServices)
