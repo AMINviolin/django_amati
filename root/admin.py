@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import *
+from .models import Services,NewsLetter
 
 class AdminServices(admin.ModelAdmin):
     list_display = ['title','content','status']
@@ -7,3 +7,4 @@ class AdminServices(admin.ModelAdmin):
     search_fields = ['title']
 
 admin.site.register(Services,AdminServices)
+admin.site.register(NewsLetter)

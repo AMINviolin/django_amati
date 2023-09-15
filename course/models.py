@@ -50,3 +50,8 @@ class Courses(models.Model):
     def __str__(self):
         return self.title
     
+    def snip(self):
+        return self.content[:15] + '...'
+    
+    def capt(self):
+        return self.title.capitalize()

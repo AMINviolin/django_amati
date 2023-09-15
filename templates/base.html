@@ -55,10 +55,9 @@
             <li><a href="{% url 'root:contact' %}">Contact</a></li>
             <li class="dropdown"><a href="#"><span>Category</span> <i class="bi bi-chevron-down"></i></a>
               <ul>
-                <li><a href="#">Drop Down 1</a></li>
-                <li><a href="#">Drop Down 2</a></li>
-                <li><a href="#">Drop Down 3</a></li>
-                <li><a href="#">Drop Down 4</a></li>
+                {% for cat in category %}
+                <li><a href="{% url 'course:course_cat' cat=cat.name %}">{{cat.name}}</a></li>
+                {% endfor %}
               </ul>
             </li>
             <li><a href="#">Login</a></li>
@@ -114,7 +113,13 @@
               <div class="col-lg-4 col-md-6 footer-newsletter">
                 <h4>Join Our Newsletter</h4>
                 <p>Tamen quem nulla quae legam multos aute sint culpa legam noster magna</p>
-                <form action="" method="post">
+                {% if messages %}
+                  {% for message in messages %}
+                  <p style="color: rgb(187, 195, 30);">{{message}}</p>
+                  {% endfor %}
+                {% endif %}
+                <form action={% url 'root:home' %} method="post">
+                  {% csrf_token %}
                   <input type="email" name="email"><input type="submit" value="Subscribe">
                 </form>
               </div>
