@@ -13,7 +13,7 @@
       </div>
     </div><!-- End Breadcrumbs --><br>
     <div class="single-sidebar-widget search-widget" align="center">
-      <form class="search-form" action="#">
+      <form class="search-form" action="{% url 'course:course_search' %}">
           <input placeholder="Search Posts" name="search" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Search Posts'">
           <button type="submit">click</button>
       </form>
@@ -36,7 +36,7 @@
                 </div>
 
                 <h3><a href="course-details.html">{{item.capt}}</a></h3>
-                <p>{{item.snip}}</p>
+                <p>{{item.content | truncatewords:2}}</p>
                 <div class="trainer d-flex justify-content-between align-items-center">
                   <div class="trainer-profile d-flex align-items-center">
                     <img src={{item.teacher.image.url}} class="img-fluid" alt="">
@@ -47,7 +47,7 @@
                     &nbsp;&nbsp;
                     <i class="bx bx-heart"></i>&nbsp;{{item.counted_likes}}
                   </div>
-                  <span>{{item.schedule|date:'m Y D'}}</span>
+                  <span>{{item.schedule|date:'M y D'}}</span>
                 </div>
               </div>
             </div>
@@ -61,14 +61,26 @@
       </div>
     </section><!-- End Courses Section -->
     <div align="center" style="font-size:35px;">
-      <a href="#"><<</a>
+      {% if maincourse.has_next and maincourse.has_previous %}
+      <a href="?page={{first_page}}"><<</a>
       <a href="#">....</a>
-      <a href="#"><  </a>
+      <a href="?page={{maincourse.previous_page_number}}"><  </a>
       <a href="#">....</a>
-      <a href="#">></a>
+      <a href="?page={{maincourse.next_page_number}}">></a>
       <a href="#">....</a>
-      <a href="#">>></a>
+      <a href="?page={{last_page}}">>></a>
+      {% elif maincourse.has_next %}
+      <a href="?page={{maincourse.next_page_number}}">></a>
+      <a href="#">....</a>
+      <a href="?page={{last_page}}">>></a>
+      {% elif maincourse.has_previous %}
+      <a href="?page={{first_page}}"><<</a>
+      <a href="#">....</a>
+      <a href="?page={{maincourse.previous_page_number}}"><  </a>
+      {% endif %}
     </div>
+      
+
 
   </main><!-- End #main -->
   {% endblock 'content' %}
