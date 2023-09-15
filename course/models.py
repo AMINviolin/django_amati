@@ -15,7 +15,7 @@ class Skills(models.Model):
 
 class Trainer(models.Model):
     info = models.ForeignKey(User,on_delete=models.CASCADE)
-    skills = models.ForeignKey(Skills, on_delete=models.CASCADE)
+    skills = models.ManyToManyField(Skills)
     description = models.TextField()
     image = models.ImageField(upload_to='trainer',default='teacher.png')
     twitter = models.CharField(max_length=255,default='#')
