@@ -26,7 +26,7 @@
           {% for item in maincourse %}
           <div class="col-lg-4 col-md-6 d-flex align-items-stretch">
             <div class="course-item">
-              <img src={{item.image.url}} class="img-fluid" alt="...">
+              <img src="{{MEDIA_URL}}{{item.image.url}}" class="img-fluid" alt="...">
               <div class="course-content">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                   {% for cat in item.category.all %}
