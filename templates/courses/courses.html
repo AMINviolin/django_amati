@@ -63,20 +63,20 @@
     <div align="center" style="font-size:35px;">
       {% if maincourse.has_next and maincourse.has_previous %}
       <a href="?page={{first_page}}"><<</a>
-      <a href="#">....</a>
+      <a href="#"  style="color: rgb(52, 230, 209);">{{maincourse.previous_page_number}}</a>
       <a href="?page={{maincourse.previous_page_number}}"><  </a>
-      <a href="#">....</a>
+      <a href="#" style="color:rgb(232, 226, 58);font-size:50px" ><active>{{maincourse.number}}</a>
       <a href="?page={{maincourse.next_page_number}}">></a>
-      <a href="#">....</a>
+      <a href="#" style="color: rgb(52, 230, 209);">{{maincourse.next_page_number}}</a>
       <a href="?page={{last_page}}">>></a>
       {% elif maincourse.has_next %}
       <a href="?page={{maincourse.next_page_number}}">></a>
-      <a href="#">....</a>
+      <a href="#" style="color: rgb(52, 230, 209);"> {{maincourse.number}}</a>
       <a href="?page={{last_page}}">>></a>
       {% elif maincourse.has_previous %}
       <a href="?page={{first_page}}"><<</a>
-      <a href="#">....</a>
-      <a href="?page={{maincourse.previous_page_number}}"><  </a>
+      <a href="#" style="color: rgb(52, 230, 209);">{{maincourse.number}}</a>
+      <a href="?page={{courses.previous_page_number}}"><  </a>
       {% endif %}
     </div>
       
