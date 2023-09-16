@@ -38,10 +38,10 @@ def Maincourse(request,cat=None,teacher=None):
 def course_detail(request,id):
     # try:
         course = Courses.objects.get(id=id)
-        id_list = []
-        course = Courses.objects.filter(status = True)
-        for cr in course :
-            id_list.append(cr.id)
+        courses = Courses.objects.filter(status = True)
+        id_list = [cr.id for cr in courses]
+
+        id_list.reverse()
         
         if id_list[0] == id:
             next_course = Courses.objects.get(id=id_list[1])
