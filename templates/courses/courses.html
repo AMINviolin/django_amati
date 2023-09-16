@@ -35,7 +35,7 @@
                   <p class="price">${{item.price}}</p>
                 </div>
 
-                <h3><a href="course-details.html">{{item.capt}}</a></h3>
+                <h3><a href="{% url 'course:course_detail' id=item.id %}">{{item.capt}}</a></h3>
                 <p>{{item.content | truncatewords:2}}</p>
                 <div class="trainer d-flex justify-content-between align-items-center">
                   <div class="trainer-profile d-flex align-items-center">

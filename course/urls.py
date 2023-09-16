@@ -8,4 +8,5 @@ urlpatterns = [
     path('category/<str:cat>',Maincourse,name='course_cat'),
     path('teacher/<str:teacher>',Maincourse,name='course_teacher'),
     path('search/',Maincourse,name='course_search'),
+    path('course_detail/<int:id>',course_detail,name='course_detail'),
 ]
