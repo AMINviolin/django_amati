@@ -36,7 +36,7 @@ def Maincourse(request,cat=None,teacher=None):
     return render(request,"courses/courses.html",context=context)
 
 def course_detail(request,id):
-    # try:
+    try:
         course = Courses.objects.get(id=id)
         courses = Courses.objects.filter(status = True)
         id_list = [cr.id for cr in courses]
@@ -65,5 +65,5 @@ def course_detail(request,id):
             'previous_course': previous_course,
         }
         return render(request,"courses/course-details.html",context=context)
-    # except:
-    #     return render(request,'courses/404.html')
+    except:
+        return render(request,'courses/404.html')
