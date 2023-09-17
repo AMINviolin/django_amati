@@ -105,6 +105,8 @@
                       <p class="comment">
                         {{comment.message}}
                       </p>
+                      <a type="button" href={% url 'course:delete' id=comment.id %}>Delete</a>
+                      <a type="button" href={% url 'course:edit' id=comment.id %}>Edit</a>
                     </div>
                   </div>
                   <div class="reply-btn">

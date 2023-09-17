@@ -83,3 +83,27 @@ def course_detail(request,id):
     else:
         messages.add_message(request,messages.ERROR,'your comment is invalid')
         return redirect(request.path_info)
+    
+def delete_comment(request,id):
+    comment = Comment.objects.get(id=id)
+    cid = comment.which_course.id
+    comment.delete()
+    return redirect(f'/course/course_detail/{cid}')
+
+def edit(request,id):
+    comment = Comment.objects.get(id=id)
+    if request.method == 'GET':
+        context ={
+            'comment': comment
+        }
+        return render(request, 'courses/edit.html',context)
+    
+    elif request.method == 'POST':
+        form = CommentForm(request.POST,instance=comment)
+        if form.is_valid():
+            form.save()
+            cid = comment.which_course.id
+            return redirect(f'/course/course_detail/{cid}')
+        else:
+            messages.add_message(request,messages.ERROR,'invalid inputs')
+            return redirect(request.path_info)
