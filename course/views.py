@@ -1,6 +1,8 @@
-from django.shortcuts import render,get_object_or_404
-from .models import Courses
+from django.shortcuts import render,get_object_or_404,redirect
+from .models import Courses,Comment
 from django.core.paginator import Paginator,PageNotAnInteger,EmptyPage
+from .forms import CommentForm
+from django.contrib import messages
 
 def Maincourse(request,cat=None,teacher=None):
     if cat:
@@ -36,34 +38,48 @@ def Maincourse(request,cat=None,teacher=None):
     return render(request,"courses/courses.html",context=context)
 
 def course_detail(request,id):
-    try:
-        course = Courses.objects.get(id=id)
-        courses = Courses.objects.filter(status = True)
-        id_list = [cr.id for cr in courses]
+    if request.method == 'GET':
+        try:
+            course = Courses.objects.get(id=id)
+            comments = Comment.objects.filter(which_course = course.id,status = True)
+            id_list = []
+            courses = Courses.objects.filter(status = True)
+            for cr in courses:
+                id_list.append(cr.id)
 
-        id_list.reverse()
-        
-        if id_list[0] == id:
-            next_course = Courses.objects.get(id=id_list[1])
-            previous_course =None
+            id_list.reverse()
+            
+            if id_list[0] == id:
+                next_course = Courses.objects.get(id=id_list[1])
+                previous_course =None
 
-        elif id_list[-1] == id:
-            next_course = None
-            previous_course = Courses.objects.get(id=id_list[-2])
+            elif id_list[-1] == id:
+                next_course = None
+                previous_course = Courses.objects.get(id=id_list[-2])
 
-        else:
-            next_course = Courses.objects.get(id=id_list[id_list.index(id)+1])
-            previous_course = Courses.objects.get(id=id_list[id_list.index(id)-1])
+            else:
+                next_course = Courses.objects.get(id=id_list[id_list.index(id)+1])
+                previous_course = Courses.objects.get(id=id_list[id_list.index(id)-1])
 
 
 
-        course.counted_views += 1
-        course.save()
-        context = {
-            'course': course,
-            'next_course': next_course,
-            'previous_course': previous_course,
-        }
-        return render(request,"courses/course-details.html",context=context)
-    except:
-        return render(request,'courses/404.html')
+            course.counted_views += 1
+            course.save()
+            context = {
+                'course': course,
+                'next_course': next_course,
+                'previous_course': previous_course,
+                'comment': comments,
+            }
+            return render(request,"courses/course-details.html",context=context)
+        except:
+            return render(request,'courses/404.html')
+    elif request.method == 'POST':
+        form  = CommentForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.add_message(request,messages.SUCCESS,'your comment submited')
+            return redirect(request.path_info)
+    else:
+        messages.add_message(request,messages.ERROR,'your comment is invalid')
+        return redirect(request.path_info)
