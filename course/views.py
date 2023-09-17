@@ -41,7 +41,7 @@ def course_detail(request,id):
     if request.method == 'GET':
         try:
             course = Courses.objects.get(id=id)
-            comments = Comment.objects.filter(which_course = course.id,status = True)
+            comments = Comment.objects.filter(which_course = id,status = True)
             id_list = []
             courses = Courses.objects.filter(status = True)
             for cr in courses:
@@ -69,7 +69,7 @@ def course_detail(request,id):
                 'course': course,
                 'next_course': next_course,
                 'previous_course': previous_course,
-                'comment': comments,
+                'comments': comments,
             }
             return render(request,"courses/course-details.html",context=context)
         except:
