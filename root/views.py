@@ -3,7 +3,7 @@ from .models import Services,NewsLetter
 from course.models import Courses,Trainer
 from course.models import Category
 from django.contrib.auth.models import User
-from .forms import NewsLetterForm
+from .forms import NewsLetterForm,ContactUsForm
 from django.contrib import messages
 
 def home(request):
@@ -28,12 +28,10 @@ def home(request):
                 }
         return render(request,"root/index.html",context=context)
     elif request.method == 'POST':
-        new_email = NewsLetter()
         form = NewsLetterForm(request.POST)
         if form.is_valid():
-            new_email.email = request.POST.get('email')
-            new_email.save()
-            messages.add_message(request,messages.SUCCESS,'your email submited')
+            form.save()
+            messages.add_message(request,messages.SUCCESS,'email submited')
             return redirect('root:home')
         else:
             messages.add_message(request,messages.ERROR,'invalid email address')
@@ -41,19 +39,53 @@ def home(request):
 # _&_&_&_&_&_&_&_&_&_&_&_&_&_&_&_&
 
 def about(request):
-    category = Category.objects.all()
-    context = {
-        'category':category
-    }
-    return render(request,"root/about.html",context = context)
+    if request.method == 'GET':
+        category = Category.objects.all()
+        context = {
+            'category':category
+        }
+        return render(request,"root/about.html",context = context)
+    elif request.method == 'POST':
+        form = NewsLetterForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.add_message(request,messages.SUCCESS,'email submited')
+            return redirect('root:about')
+        else:
+            messages.add_message(request,messages.ERROR,'invalid email address')
+            return redirect('root:about')
+# _&_&_&_&_&_&_&_&_&_&_&_&_&_&_&_&
+
+
 # _&_&_&_&_&_&_&_&_&_&_&_&_&_&_&_&
 
 def contact(request):
-    category = Category.objects.all()
-    context = {
-        'category':category
-    }
-    return render(request,"root/contact.html",context=context)
+    if request.method == 'GET':
+        category = Category.objects.all()
+        context = {
+            'category':category
+        }
+        return render(request,"root/contact.html",context=context)
+    elif request.method == 'POST' and len(request.POST) == 2:
+        form = NewsLetterForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.add_message(request,messages.SUCCESS,'email submited')
+            return redirect('root:contact')
+        else:
+            messages.add_message(request,messages.ERROR,'invalid email address')
+            return redirect('root:contact')
+        
+    elif request.method == 'POST' and len(request.POST) > 2:
+        form = ContactUsForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.add_message(request,messages.SUCCESS,'your message sent and we will answer to it soon')
+            return redirect('root:contact')
+        else:
+            messages.add_message(request,messages.ERROR,'invalid input data')
+            return redirect('root:contact')
+
 # _&_&_&_&_&_&_&_&_&_&_&_&_&_&_&_&
 
 def trainer(request):

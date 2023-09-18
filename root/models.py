@@ -18,3 +18,13 @@ class NewsLetter(models.Model):
 
     def __str__(self):
         return self.email
+    
+
+class ContactUs(models.Model):
+    email = models.EmailField()
+    name = models.CharField(max_length=100)
+    subject = models.CharField(max_length=300)
+    message = models.TextField()
+
+    def __str__(self):
+        return self.name
