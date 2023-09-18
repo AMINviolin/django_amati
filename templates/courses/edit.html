@@ -13,17 +13,17 @@
       </div>
       <div class="form-group col-lg-6 col-md-12 email">
         <input type="hidden" class="form-control" name="email" placeholder="Enter email address"
-          onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter email address'"value={{comment.name}}>
+          onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter email address'"value={{comment.email}}>
       </div>
     </div>
     <div class="form-group">
       <input type="text" class="form-control" name="subject" placeholder="Subject"
-        onfocus="this.placeholder = ''" onblur="this.placeholder = 'Subject'">
+        onfocus="this.placeholder = ''" onblur="this.placeholder = 'Subject'" value="{{comment.subject}}">
     </div>
     <div class="form-group">
       <textarea class="form-control mb-10" rows="5" name="message" placeholder="Messege"
-        onfocus="this.placeholder = ''" onblur="this.placeholder = 'Messege'" required=""></textarea>
+        onfocus="this.placeholder = ''" onblur="this.placeholder = 'Messege'" required="" >{{comment.message}}</textarea>
     </div>
-    <button type="submit" class="primary-btn text-uppercase">Post Comment</button>
+    <button type="submit" class="primary-btn text-uppercase">edit Comment</button>
   </form>
 {% endblock 'content' %}

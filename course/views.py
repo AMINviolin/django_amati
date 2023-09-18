@@ -1,7 +1,7 @@
-from django.shortcuts import render,get_object_or_404,redirect
-from .models import Courses,Comment
+from django.shortcuts import render,redirect
+from .models import Courses,Comment,Reply
 from django.core.paginator import Paginator,PageNotAnInteger,EmptyPage
-from .forms import CommentForm
+from .forms import CommentForm,ReplyForm
 from django.contrib import messages
 
 def Maincourse(request,cat=None,teacher=None):
@@ -42,6 +42,7 @@ def course_detail(request,id):
         try:
             course = Courses.objects.get(id=id)
             comments = Comment.objects.filter(which_course = id,status = True)
+            reply = Reply.objects.filter(status = True)
             id_list = []
             courses = Courses.objects.filter(status = True)
             for cr in courses:
@@ -70,6 +71,7 @@ def course_detail(request,id):
                 'next_course': next_course,
                 'previous_course': previous_course,
                 'comments': comments,
+                'reply' :reply,
             }
             return render(request,"courses/course-details.html",context=context)
         except:
@@ -106,4 +108,24 @@ def edit(request,id):
             return redirect(f'/course/course_detail/{cid}')
         else:
             messages.add_message(request,messages.ERROR,'invalid inputs')
+            return redirect(request.path_info)
+        
+def reply(request,id):
+    comment = Comment.objects.get(id=id)
+    if request.method == 'GET':
+        form = ReplyForm()
+        context ={
+            'comment': comment,
+            'form': form,
+        }
+        return render(request, 'courses/reply.html',context)
+    
+    elif request.method == 'POST':
+        form = ReplyForm(request.POST)
+        if form.is_valid():
+            form.save()
+            cid = comment.which_course.id
+            return redirect(f'/course/course_detail/{cid}')
+        else:
+            messages.add_message(request,messages.ERROR,'your reply is invalid')
             return redirect(request.path_info)

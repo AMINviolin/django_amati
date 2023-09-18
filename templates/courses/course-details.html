@@ -110,7 +110,12 @@
                     </div>
                   </div>
                   <div class="reply-btn">
-                    <a href="" class="btn-reply text-uppercase">reply</a>
+                    <p><a href={% url 'course:reply'  id=comment.id %} class="btn-reply text-uppercase">reply</a></p>
+                    {% for rp in reply %}
+                      {% if rp.which_comment.id == comment.id %}
+                        <p>{{rp.name}}:{{rp.message}}</p>
+                      {% endif %}
+                    {% endfor %}
                   </div>
                 </div>
               </div>
