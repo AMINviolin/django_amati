@@ -105,8 +105,10 @@
                       <p class="comment">
                         {{comment.message}}
                       </p>
-                      <a type="button" href={% url 'course:delete' id=comment.id %}>Delete</a>
-                      <a type="button" href={% url 'course:edit' id=comment.id %}>Edit</a>
+                      {% if request.user.is_authenticated and request.user.username == comment.name %}
+                        <a type="button" href={% url 'course:delete' id=comment.id %}>Delete</a>
+                        <a type="button" href={% url 'course:edit' id=comment.id %}>Edit</a>
+                      {% endif %}
                     </div>
                   </div>
                   <div class="reply-btn">
@@ -128,16 +130,17 @@
                 {{ message }}
                 {% endfor %}
               {% endif %}
+              {% if request.user.is_authenticated %}
               <form method="post">
                 {% csrf_token %}
                 <div class="form-group form-inline">
                   <div class="form-group col-lg-6 col-md-12 name">
                     <input type="hidden" name="which_course" value={{course.id}}>
-                    <input type="text" class="form-control" name="name" placeholder="Enter Name"
+                    <input type="hidden" class="form-control" name="name" placeholder="Enter Name" value="{{request.user.username}}"
                       onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Name'">
                   </div>
                   <div class="form-group col-lg-6 col-md-12 email">
-                    <input type="email" class="form-control" name="email" placeholder="Enter email address"
+                    <input type="hidden" class="form-control" name="email" placeholder="Enter email address" value="{{request.user.email}}"
                       onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter email address'">
                   </div>
                 </div>
@@ -151,6 +154,7 @@
                 </div>
                 <button type="submit" class="primary-btn text-uppercase">Post Comment</button>
               </form>
+              {% endif %}
             </div>
           </div>
           <div class="col-lg-4">

@@ -10,7 +10,7 @@ def home(request):
     if request.method == 'GET':
         service_count = Services.objects.filter(status = True).count()
         course_count = Courses.objects.filter(status = True).count()
-        trainer_count = Courses.objects.filter(status = True).count
+        trainer_count = Courses.objects.filter(status = True).count()
         user_count = User.objects.filter(is_active = True).count()
         category = Category.objects.all()
         
