@@ -1,5 +1,6 @@
 {% load static %}
-
+{% load compress %}
+{% load custom_tags %}
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
@@ -16,7 +17,9 @@
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
   
     <!-- Vendor css' %} Files -->
+
     <link href="{% static 'assets/vendor/animate.css/animate.min.css' %}" rel="stylesheet">
+    {% compress css %}
     <link href="{% static 'assets/vendor/aos/aos.css' %}" rel="stylesheet">
     <link href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
     <link href="{% static 'assets/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
@@ -26,7 +29,7 @@
   
     <!-- Template Main css' %} File -->
     <link href="{% static 'assets/css/style.css' %}" rel="stylesheet">
-  
+    {% endcompress %}
     <!-- =======================================================
     * Template Name: Mentor
     * Updated: May 30 2023 with Bootstrap v5.3.0
@@ -55,6 +58,7 @@
             <li><a href="{% url 'root:contact' %}">Contact</a></li>
             <li class="dropdown"><a href="#"><span>Category</span> <i class="bi bi-chevron-down"></i></a>
               <ul>
+                {% category as category %}
                 {% for cat in category %}
                 <li><a href="{% url 'course:course_cat' cat=cat.name %}">{{cat.name}}</a></li>
                 {% endfor %}
@@ -62,6 +66,7 @@
             </li>
             {% if request.user.is_authenticated %}
             <li>loged as {{request.user.username}}</li>
+            <li>{{request.user.image.url}}</li>
             <li><a href={% url 'accounts:logout' %}>Logout</a></li>
             <li><a href={% url 'password_change' %}>Change password</a></li>
             {% else %}
@@ -162,6 +167,7 @@
     <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
   
     <!-- Vendor JS Files -->
+    {% compress js %}
     <script src="{% static 'assets/vendor/purecounter/purecounter_vanilla.js' %}"></script>
     <script src="{% static 'assets/vendor/aos/aos.js' %}"></script>
     <script src="{% static 'assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
@@ -170,7 +176,7 @@
   
     <!-- Template Main JS File -->
     <script src="{% static 'assets/js/main.js' %}"></script>
-  
+    {% endcompress %}
   </body>
   
   </html>

@@ -4,24 +4,34 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import messages
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
+from .models import CustomUser
+from .forms import CaptchaForm
+
+
+
 
 def Login(request):
     if request.user.is_authenticated:
         return redirect('/')
     elif request.method == 'GET':
         form = AuthenticationForm()
-        return render(request, 'registration/login.html',context={'form':form})
+        captcha = CaptchaForm()
+        return render(request, 'registration/login.html',context={'form':form,'captcha':captcha})
     else:
-        if '@' in request.POST.get('username'):
-            username = User.objects.get(email=request.POST.get('username')).username
-        form =AuthenticationForm(request.POST)
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        user = authenticate(username=username, password=password)
-        if user is not None:
-            login(request,user)
-            return redirect('/')
+        captcha_form = CaptchaForm(request.POST)
+        if captcha_form.is_valid():
+            if '@' in request.POST.get('username'):
+                username = CustomUser.objects.get(email=request.POST.get('username')).username
+            form =AuthenticationForm(request.POST)
+            username = request.POST.get('username')
+            password = request.POST.get('password')
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                login(request,user)
+                return redirect('/')
+            else:
+                messages.add_message(request,messages.ERROR,'invalid data')
+                return redirect(request.path_info)
         else:
             messages.add_message(request,messages.ERROR,'invalid data')
             return redirect(request.path_info)
@@ -35,25 +45,28 @@ def signup(request):
     if request.user.is_authenticated:
         return redirect('/')
     elif request.method == 'GET':
+        captcha = CaptchaForm()
         form = CustomUserCreation()
-        return render(request, 'registration/signup.html',context={'form':form})
-    
+        return render(request,'registration/signup.html', context={'form': form,'captcha': captcha})
     else:
-        form = CustomUserCreation(request.POST)
-        if form.is_valid():
-            form.save()
-            username = request.POST.get('username')
-            password = request.POST.get('password1')
-            user = authenticate(username=username, password=password)
-            if user is not None:
-                login(request,user)
-                return redirect('/')
-    
+        captcha_form = CaptchaForm(request.POST)
+        if captcha_form.is_valid():
+            form = CustomUserCreation(request.POST,request.FILES)
+            if form.is_valid():
+                form.save()
+                username = request.POST.get('username')
+                password = request.POST.get('password1')
+                user = authenticate(username=username, password=password)
+                if user is not None:
+                    login(request,user)
+                    return redirect('/')
+                else:
+                    messages.add_message(request, messages.ERROR, 'Invalid username or password')
+                    return redirect(request.path_info)
             else:
-                messages.add_message(request,messages.ERROR,'invalid data')
+                messages.add_message(request, messages.ERROR, 'Invalid username or password')
                 return redirect(request.path_info)
-
+            
         else:
-            messages.add_message(request,messages.ERROR,'invalid data')
+            messages.add_message(request, messages.ERROR, 'Invalid captcha')
             return redirect(request.path_info)
-

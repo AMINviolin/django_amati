@@ -1,6 +1,6 @@
 from django.db import models
 import datetime
-from django.contrib.auth.models import User
+from accounts.models import CustomUser
 
 
 class Category(models.Model):
@@ -14,7 +14,7 @@ class Skills(models.Model):
         return self.name
 
 class Trainer(models.Model):
-    info = models.ForeignKey(User,on_delete=models.CASCADE)
+    info = models.ForeignKey(CustomUser,on_delete=models.CASCADE)
     skills = models.ManyToManyField(Skills)
     description = models.TextField()
     image = models.ImageField(upload_to='trainer',default='teacher.png')

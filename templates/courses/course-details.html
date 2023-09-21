@@ -112,7 +112,9 @@
                     </div>
                   </div>
                   <div class="reply-btn">
+                    {% if request.user.is_authenticated %}
                     <p><a href={% url 'course:reply'  id=comment.id %} class="btn-reply text-uppercase">reply</a></p>
+                    {% endif %}
                     {% for rp in reply %}
                       {% if rp.which_comment.id == comment.id %}
                         <p>{{rp.name}}:{{rp.message}}</p>

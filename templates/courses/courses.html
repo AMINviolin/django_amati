@@ -1,5 +1,7 @@
 {% extends 'base.html'%}
 {% load static %}
+{% load custom_tags %}
+{% load humanize %}
 {% block 'title' %}course{% endblock 'title' %}
 {% block 'content' %}
 
@@ -36,7 +38,7 @@
                 </div>
 
                 <h3><a href="{% url 'course:course_detail' id=item.id %}">{{item.capt}}</a></h3>
-                <p>{{item.content | truncatewords:2}}</p>
+                <p>{{item.content | truncate2:2}}</p>
                 <div class="trainer d-flex justify-content-between align-items-center">
                   <div class="trainer-profile d-flex align-items-center">
                     <img src={{item.teacher.image.url}} class="img-fluid" alt="">
@@ -47,7 +49,7 @@
                     &nbsp;&nbsp;
                     <i class="bx bx-heart"></i>&nbsp;{{item.counted_likes}}
                   </div>
-                  <span>{{item.schedule|date:'M y D'}}</span>
+                  <span>{{item.schedule|naturaltime}}</span>
                 </div>
               </div>
             </div>

@@ -8,14 +8,15 @@
 <form method="post">
     {% csrf_token %}
     {{form.as_p}}
-    <button type="submit">Login</button>
+    &nbsp;&nbsp;&nbsp;&nbsp;<button type="submit" style="background-color: #0d0e0b; color: #ffff00; padding: 6px 14px; border: 3px; border-radius: 5px; cursor: pointer;">Login</button>
+    {{captcha}}
     {% if messages %}
         {% for message in messages %}
         {{message}}
         {% endfor %}
     {% endif %}
 
-<p><a href={% url 'password_reset' %}>forgot password</a></p>
+    <br><p>thanks for joining us|<a href={% url 'password_reset' %}> do you forgot your password?</a></p>
 
 </form>
 

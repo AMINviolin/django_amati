@@ -3,6 +3,7 @@ from .models import Courses,Comment,Reply
 from django.core.paginator import Paginator,PageNotAnInteger,EmptyPage
 from .forms import CommentForm,ReplyForm
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 def Maincourse(request,cat=None,teacher=None):
     if cat:
@@ -39,7 +40,7 @@ def Maincourse(request,cat=None,teacher=None):
 
 def course_detail(request,id):
     if request.method == 'GET':
-        try:
+        # try:
             course = Courses.objects.get(id=id)
             comments = Comment.objects.filter(which_course = id,status = True)
             reply = Reply.objects.filter(status = True)
@@ -50,18 +51,17 @@ def course_detail(request,id):
 
             id_list.reverse()
             
-            if id_list[0] == id:
-                next_course = Courses.objects.get(id=id_list[1])
-                previous_course =None
+            if id_list[0] == id :
+                next_course = Courses.objects.get(id = id_list[1])
+                previous_course = None  
 
-            elif id_list[-1] == id:
+            elif id_list[-1] == id :
                 next_course = None
-                previous_course = Courses.objects.get(id=id_list[-2])
+                previous_course = Courses.objects.get(id = id_list[-2])  
 
             else:
                 next_course = Courses.objects.get(id=id_list[id_list.index(id)+1])
-                previous_course = Courses.objects.get(id=id_list[id_list.index(id)-1])
-
+                previous_course = Courses.objects.get(id=id_list[id_list.index(id)-1])   
 
 
             course.counted_views += 1
@@ -74,8 +74,8 @@ def course_detail(request,id):
                 'reply' :reply,
             }
             return render(request,"courses/course-details.html",context=context)
-        except:
-            return render(request,'courses/404.html')
+        # except:
+        #     return render(request,'courses/404.html')
     elif request.method == 'POST':
         form  = CommentForm(request.POST)
         if form.is_valid():
@@ -86,12 +86,14 @@ def course_detail(request,id):
         messages.add_message(request,messages.ERROR,'your comment is invalid')
         return redirect(request.path_info)
     
+@login_required
 def delete_comment(request,id):
     comment = Comment.objects.get(id=id)
     cid = comment.which_course.id
     comment.delete()
     return redirect(f'/course/course_detail/{cid}')
 
+@login_required
 def edit(request,id):
     comment = Comment.objects.get(id=id)
     if request.method == 'GET':
@@ -110,6 +112,8 @@ def edit(request,id):
             messages.add_message(request,messages.ERROR,'invalid inputs')
             return redirect(request.path_info)
         
+
+@login_required
 def reply(request,id):
     comment = Comment.objects.get(id=id)
     if request.method == 'GET':
